@@ -240,6 +240,12 @@
     <p class="note">
        Browser implementations SHOULD use a namespace object such as <code>navigator.wot</code>. <a href="https://nodejs.org/en/">Node.js</a>-like runtimes MAY provide the API object through the <a href="https://nodejs.org/api/modules.html">require()</a> or <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-imports">import</a> mechanism.
     </p>
+	
+<code>
+<pre data-include="TypeScript/parts/WoT.part.ts"></pre>
+</code>
+	
+	<!--
     <pre class="idl">
       // [SecureContext]
       // [NamespaceObject]
@@ -262,6 +268,7 @@
       typedef USVString ThingDescription;
       typedef (ThingFragment or ThingDescription) ThingModel;
     </pre>
+	-->
 
     <p class="ednote">
       The algorithms for the WoT methods will be specified later, including error handling and security considerations.
@@ -277,9 +284,17 @@
       </p>
       <section data-dfn-for="DiscoveryMethod">
         <h4>The <dfn>DiscoveryMethod</dfn> enumeration</h4>
+		
+		<code>
+		<pre data-include="TypeScript/parts/DiscoveryMethod.part.ts"></pre>
+		</code>
+		
+		<!--
         <pre class="idl">
           typedef DOMString DiscoveryMethod;
         </pre>
+		-->
+		
         <p>
           <a>DiscoveryMethod</a> represents the discovery type to be used:
         </p>
@@ -302,6 +317,12 @@
         <p>
           The <a>ThingFilter</a> dictionary that represents the constraints for discovering <a>Thing</a>s as key-value pairs.
         </p>
+		
+		<code>
+		<pre data-include="TypeScript/parts/ThingFilter.part.ts"></pre>
+		</code>
+		
+		<!--
         <pre class="idl">
           dictionary ThingFilter {
             (DiscoveryMethod or DOMString) method = "any";
@@ -310,6 +331,8 @@
             ThingFragment? fragment;
           };
         </pre>
+		-->
+		
         <p>
           The <dfn>method</dfn> property represents the discovery type that should be used in the discovery process. The possible values are defined by the <code><a>DiscoveryMethod</a></code> enumeration that MAY be extended by string values defined by solutions (with no guarantee of interoperability).
         </p>
@@ -602,6 +625,12 @@
     <p>
       Represents an object that extends a <a>ThingFragment</a> with methods for client interactions (send request for reading and writing <a>Properties</a>), invoke <a>Action</a>s, subscribe and unsubscribe for <a>Property</a> changes and <a>Event</a>s.
     </p>
+	
+	<code>
+	<pre data-include="TypeScript/parts/ConsumedThing.part.ts"></pre>
+	</code>
+	
+	<!--
     <pre class="idl">
       interface ConsumedThing: ThingFragment {
         readonly attribute DOMString id;
@@ -627,6 +656,8 @@
       };
       ConsumedThing includes Observable;  // for TD changes
     </pre>
+	-->
+	
     <p>
       The <dfn>id</dfn> attribute represents the unique identifier of the <a>Thing</a> instance, typically a URI, IRI, or URN as <code>USVString</code>.
     </p>
