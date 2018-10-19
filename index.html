@@ -110,6 +110,13 @@
         },
       };
     </script>
+	<style>
+	.typescript
+	{
+		background-color: #F8F8FF;
+		border-style: double;
+	}
+	</style>
   </head>
   <body>
 
@@ -240,10 +247,17 @@
     <p class="note">
        Browser implementations SHOULD use a namespace object such as <code>navigator.wot</code>. <a href="https://nodejs.org/en/">Node.js</a>-like runtimes MAY provide the API object through the <a href="https://nodejs.org/api/modules.html">require()</a> or <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-imports">import</a> mechanism.
     </p>
-	
+
+<!--
+<pre class="example" title="TypeScript definition" data-include="TypeScript/parts/WoT.part.ts">
+</pre>
+-->
+
+<div class="typescript">
 <code>
 <pre data-include="TypeScript/parts/WoT.part.ts"></pre>
 </code>
+</div>
 	
 	<!--
     <pre class="idl">
@@ -285,9 +299,11 @@
       <section data-dfn-for="DiscoveryMethod">
         <h4>The <dfn>DiscoveryMethod</dfn> enumeration</h4>
 		
+		<div class="typescript">
 		<code>
 		<pre data-include="TypeScript/parts/DiscoveryMethod.part.ts"></pre>
 		</code>
+		</div>
 		
 		<!--
         <pre class="idl">
@@ -318,9 +334,11 @@
           The <a>ThingFilter</a> dictionary that represents the constraints for discovering <a>Thing</a>s as key-value pairs.
         </p>
 		
+		<div class="typescript">
 		<code>
 		<pre data-include="TypeScript/parts/ThingFilter.part.ts"></pre>
 		</code>
+		</div>
 		
 		<!--
         <pre class="idl">
@@ -337,7 +355,7 @@
           The <dfn>method</dfn> property represents the discovery type that should be used in the discovery process. The possible values are defined by the <code><a>DiscoveryMethod</a></code> enumeration that MAY be extended by string values defined by solutions (with no guarantee of interoperability).
         </p>
         <p>
-          The <dfn>url</dfn> property represents additional information for the discovery method, such as the URL of the target entity serving the discovery request, for instance a <a>Thing Directory</a> (if <code>method</code> is <code>"directory"</code>) or a Thing (otherwise).
+          The <b>url</b> property represents additional information for the discovery method, such as the URL of the target entity serving the discovery request, for instance a <a>Thing Directory</a> (if <code>method</code> is <code>"directory"</code>) or a Thing (otherwise).
         </p>
         <p>
           The <dfn>query</dfn> property represents a query string accepted by the implementation, for instance a SPARQL or JSON query. Support may be implemented locally in the <a>WoT Runtime</a> or remotely as a service in a <a>Thing Directory</a>.
@@ -626,9 +644,11 @@
       Represents an object that extends a <a>ThingFragment</a> with methods for client interactions (send request for reading and writing <a>Properties</a>), invoke <a>Action</a>s, subscribe and unsubscribe for <a>Property</a> changes and <a>Event</a>s.
     </p>
 	
+	<div class="typescript">
 	<code>
 	<pre data-include="TypeScript/parts/ConsumedThing.part.ts"></pre>
 	</code>
+	</div>
 	
 	<!--
     <pre class="idl">
@@ -668,13 +688,13 @@
       The <dfn>base</dfn> attribute represents the base URI that is valid for all defined local interaction resources.
     </p>
     <p>
-      The <dfn>properties</dfn> attribute represents a dictionary of <a>ThingProperty</a> items. The <dfn>PropertyMap</dfn> interface represents a maplike dictionary where all values are <a>ThingProperty</a> objects. The <code>read()</code> and <code>write()</code> methods make a request to access the <a>Properties</a> on the remote <a>Thing</a> represented by this <a>ConsumedThing</a> proxy object.
+      The <b>properties</b> attribute represents a dictionary of <a>ThingProperty</a> items. The <dfn>PropertyMap</dfn> interface represents a maplike dictionary where all values are <a>ThingProperty</a> objects. The <code>read()</code> and <code>write()</code> methods make a request to access the <a>Properties</a> on the remote <a>Thing</a> represented by this <a>ConsumedThing</a> proxy object.
     </p>
     <p>
-      The <dfn>actions</dfn> attribute represents a dictionary of <a>ThingAction</a> items. The <dfn>ActionMap</dfn> interface represents a maplike dictionary where all values are <a>ThingAction</a> objects. The <code>invoke()</code> method represents a request to invoke the <a>Action</a> on the remote <a>Thing</a>.
+      The <b>actions</b> attribute represents a dictionary of <a>ThingAction</a> items. The <dfn>ActionMap</dfn> interface represents a maplike dictionary where all values are <a>ThingAction</a> objects. The <code>invoke()</code> method represents a request to invoke the <a>Action</a> on the remote <a>Thing</a>.
     </p>
     <p>
-      The <dfn>events</dfn> attribute represents a dictionary of <a>ThingEvent</a> items. The <dfn>EventMap</dfn> interface represents a maplike dictionary where all values are <a>ThingEvent</a> objects. Subscribing to the events involves setting up an observation (subscription) mechanism on the remote object.
+      The <b>events</b> attribute represents a dictionary of <a>ThingEvent</a> items. The <dfn>EventMap</dfn> interface represents a maplike dictionary where all values are <a>ThingEvent</a> objects. Subscribing to the events involves setting up an observation (subscription) mechanism on the remote object.
     </p>
 
     <section>
@@ -713,6 +733,14 @@
     <p>
       The <a>ExposedThing</a> interface is the server API that allows defining request handlers, properties, <a>Actions</a>, and <a>Events</a> to a <a>Thing</a>. It also implements the <a>Observable</a> interface. An <a>ExposedThing</a> is created by the <a href="#the-produce-method">produce()</a> method.
     </p>
+	
+	<div class="typescript">
+	<code>
+	<pre data-include="TypeScript/parts/ExposedThing.part.ts"></pre>
+	</code>
+	</div>
+	
+	<!--
     <pre class="idl">
       interface ExposedThing: ThingFragment {
         readonly attribute PropertyMap properties;
@@ -746,15 +774,16 @@
       callback PropertyWriteHandler = Promise&lt;void&gt;(any value);
       callback ActionHandler = Promise&lt;any&gt;(any parameters);
     </pre>
+	-->
 
     <p>
-      The <dfn>properties</dfn> attribute represents a dictionary of <a>ThingProperty</a> items in which the <code>read()</code> and <code>write()</code> methods define local methods that access the physical representations of the <a>Properties</a>.
+      The <b>properties</b> attribute represents a dictionary of <a>ThingProperty</a> items in which the <code>read()</code> and <code>write()</code> methods define local methods that access the physical representations of the <a>Properties</a>.
     </p>
     <p>
-      The <dfn>actions</dfn> attribute represents a dictionary of <a>ThingAction</a> items in which the <code>invoke()</code> method represents a local method to invoke the <a>Action</a>.
+      The <b>actions</b> attribute represents a dictionary of <a>ThingAction</a> items in which the <code>invoke()</code> method represents a local method to invoke the <a>Action</a>.
     </p>
     <p>
-      The <dfn>events</dfn> attribute represents a dictionary of <a>ExposedEvent</a> items that add the <code>emit()</code> method to the <a>ThingEvent</a> definition. The <dfn>ExposedEvents</dfn> interface represents a maplike dictionary where all values are <a>ExposedEvent</a> objects.
+      The <b>events</b> attribute represents a dictionary of <a>ExposedEvent</a> items that add the <code>emit()</code> method to the <a>ThingEvent</a> definition. The <dfn>ExposedEvents</dfn> interface represents a maplike dictionary where all values are <a>ExposedEvent</a> objects.
     </p>
 
     <section> <h3>The <dfn>expose()</dfn> method</h3>
@@ -1154,6 +1183,13 @@
       <p>
         Represents a <a href="https://tools.ietf.org/html/rfc8288">Web Link</a> with  properties defined in the <a data-cite="!WOT-TD#link">Link</a> section of [[!WOT-TD]].
       </p>
+	  
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/Link.part.ts"></pre>
+	  </code>
+	  </div>
+	  
     </section>
 
     <section data-dfn-for="Form">
@@ -1161,6 +1197,13 @@
       <p>
         Represents metadata describing service details, with  properties defined in the <a data-cite="!WOT-TD#form">Form</a> section of [[!WOT-TD]].
       </p>
+	  
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/Form.part.ts"></pre>
+	  </code>
+	  </div>
+	  
     </section>
 
     <section data-dfn-for="InteractionFragment">
@@ -1168,6 +1211,11 @@
       <p>
         Represents the common properties of <a>WoT Interactions</a>, one of <a>Property</a>, <a>Action</a> or <a>Event</a>, as defined in the <a data-cite="!WOT-TD#interactionpattern">InteractionPattern</a> section of [[!WOT-TD]]. Its subclasses are referred as <a>PropertyFragment</a>, <a>ActionFragment</a> and <a>EventFragment</a>.
       </p>
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/InteractionFragment.part.ts"></pre>
+	  </code>
+	  </div>
     </section>
 
     <section data-dfn-for="PropertyFragment">
@@ -1175,6 +1223,11 @@
       <p>
         Represents the <a>Property</a> interaction data that initializes a <a>ThingProperty</a> object. Its properties are defined in the <a data-cite="!WOT-TD#property">Property</a> and <a data-cite="!WOT-TD#interactionpattern">InteractionPattern</a> sections of [[!WOT-TD]].
       </p>
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/PropertyFragment.part.ts"></pre>
+	  </code>
+	  </div>
     </section>
 
     <section data-dfn-for="ActionFragment">
@@ -1182,6 +1235,11 @@
       <p>
         Represents the <a>Action</a> interaction data that initializes a <a>ThingAction</a> object. Its properties are defined in the <a data-cite="!WOT-TD#action">Action</a> and <a data-cite="!WOT-TD#interactionpattern">InteractionPattern</a> sections of [[!WOT-TD]].
       </p>
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/ActionFragment.part.ts"></pre>
+	  </code>
+	  </div>
     </section>
 
     <section data-dfn-for="EventFragment">
@@ -1189,10 +1247,22 @@
       <p>
         Represents the <a>Event</a> interaction data that initializes a <a>ThingEvent</a> object. Its properties are defined in the <a data-cite="!WOT-TD#event">Event</a> section of [[!WOT-TD]].
       </p>
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/EventFragment.part.ts"></pre>
+	  </code>
+	  </div>
     </section>
 
     <section data-dfn-for="ThingFragment">
       <h3>The <dfn>ThingFragment</dfn> dictionary</h3>
+	  
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/ThingFragment.part.ts"></pre>
+	  </code>
+	  </div>
+	  
       <p>
         The <a>ThingFragment</a> dictionary is defined as <a data-cite="!WOT-TD#thing"><b>Thing</b></a> in [[!WOT-TD]]. It is a dictionary that contains properties representing semantic metadata and interactions (<a>Properties</a>, <a>Action</a>s and <a>Event</a>s). It is used for initializing an internal representation of a <a>Thing Description</a> and its properties may be used in <a>ThingFilter</a>.
       </p>
@@ -1203,6 +1273,11 @@
       <p>
         Serialized representation of the <a>Thing Description</a> (a <a>JSON-LD</a> document).
       </p>
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/ThingDescription.part.ts"></pre>
+	  </code>
+	  </div>
       <p class="note">
         In this version of the API, <a>Thing Description</a>s are represented as an opaque <code>USVString</code> that can be transmitted between devices.
       </p>
@@ -1246,6 +1321,14 @@
       <p>
         The <a>PropertyFragment</a> dictionary is used for initializing <a>Property</a> objects in a <a>ThingFragment</a> dictionary used for creating an <a>ExposedThing</a> object. It MUST implement one of the <a>DataSchema</a> dictionaries.
       </p>
+	  
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/ThingProperty.part.ts"></pre>
+	  </code>
+	  </div>
+
+	  <!--
       <pre class="idl">
         interface ThingProperty: Interaction {
           // getter for PropertyFragment properties
@@ -1257,6 +1340,8 @@
         ThingProperty includes PropertyFragment;
         ThingProperty includes Observable;
       </pre>
+	  -->
+	  
       <p>
         The <a>ThingProperty</a> interface contains all the properties defined on <a>PropertyFragment</a> as read-only properties.
       </p>
@@ -1285,24 +1370,44 @@
 
     <section data-dfn-for="ThingAction">
       <h3>The <dfn>ThingAction</dfn> interface</h3>
+	  
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/ThingAction.part.ts"></pre>
+	  </code>
+	  </div>
+	  
+	  <!--
       <pre class="idl">
         interface ThingAction: Interaction {
           Promise&lt;any&gt; invoke(optional any inputValue);
         };
         ThingAction includes ActionFragment;
       </pre>
+	  -->
+	  
       <p>
         The <dfn>invoke()</dfn> method when invoked, starts the <a>Action</a> interaction with the input value provided by the <var>inputValue</var> argument. If <var>inputValue</var> is <code>null</code>, the action does not take any arguments and rejects if any arguments are provided. If the value is <code>undefined</code>, the action will ignore any arguments provided. Otherwise the type of <var>inputValue</var> SHOULD match the <a>DataSchema</a> definition in the <code>input</code> property. Returns a <a>Promise</a> that will reject with an error or will resolve with a value of type defined by the <code>output</code> property.
       </p>
     </section>
 
     <section data-dfn-for="ThingEvent"><h3>The <dfn>ThingEvent</dfn> interface</h3>
+	
+	  <div class="typescript">
+	  <code>
+	  <pre data-include="TypeScript/parts/ThingEvent.part.ts"></pre>
+	  </code>
+	  </div>
+	  
+	  <!--
       <pre class="idl">
         interface ThingEvent: Interaction {
         };
         ThingEvent includes EventFragment;
         ThingEvent includes ThingProperty;
       </pre>
+	  -->
+	  
       <p>
         Since <a>ThingEvent</a> implements <a>Observable</a> through the <a>ThingProperty</a> interface, event subscription is done by invoking the <code>subscribe()</code> method on the event object that returns a cancelable <a>Subscription</a>.
       </p>
