@@ -11,7 +11,6 @@ export interface ThingFragment {
     /** A human-readable description of the Thing */
     description?: string;
 	
-	
     /** Information about the Thing maintainer, e.g., author or contact URI */
     support?: string;
 	
@@ -28,7 +27,7 @@ export interface ThingFragment {
     events?: { [key: string]: EventFragment }
     
 	/** A list of Web links to other Things or metadata */
-    links?: Array<WebLink>;
+    links?: Array<Link>;
     
 	/**
      * A collection of predicate terms that reference values of any type,

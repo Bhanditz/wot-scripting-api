@@ -90,17 +90,16 @@ export declare type ThingDescription = USVString;
 export interface ThingFragment {
     /** A hint to gernerate the identifier for the Thing */
     id?: string;
-    
     /** The name attribute represents the user given name of the Thing */
     name?: string;
-
     /** A human-readable description of the Thing */
     description?: string;
-
     /** Information about the Thing maintainer, e.g., author or contact URI */
     support?: string;
+
     /** A list of security schemas used by the Thing */
     security?: Array<Security>;
+
     /** A map of PropertyFragments with decriptions only */
     properties?: { [key: string]: PropertyFragment }
     /** A map of ActionFragments with decriptions only */
@@ -108,7 +107,7 @@ export interface ThingFragment {
     /** A map of EventFragments with decriptions only */
     events?: { [key: string]: EventFragment }
     /** A list of Web links to other Things or metadata */
-    links?: Array<WebLink>;
+    links?: Array<Link>;
     /**
      * A collection of predicate terms that reference values of any type,
      * e.g., @context, @type, or other terms from the vocabulary defined in @context.
@@ -121,8 +120,14 @@ export declare type ThingModel = (ThingDescription | ThingFragment);
 
 /** Base for representing Thing Interaction descriptions */
 export interface InteractionFragment {
-    label?: string;
+    /** A human-readable title for the Interaction, e.g., for UIs */
+    title?: string;
+    /** A human-readable description of the Interaction */
     description?: string;
+    /**
+     * A collection of predicate terms that reference values of any type,
+     * e.g., @type, or other terms from the vocabulary defined in @context.
+     */
     [key: string]: any;
 }
 
@@ -138,7 +143,9 @@ export interface ActionFragment extends InteractionFragment {
 }
 /** Represents a Thing Event description */
 export interface EventFragment extends InteractionFragment {
-    
+    subscription?: DataSchema;
+    data?: DataSchema;
+    cancellation?: DataSchema;
 }
 
 /**
@@ -146,13 +153,18 @@ export interface EventFragment extends InteractionFragment {
  * functions to interact (read/write/invoke/subscribe/emit).
  */
 export interface ThingInstance extends ThingFragment {
-    
+    /** id becomes mandatory for Thing instances */
     id: string;
+    /** name becomes mandatory for Thing instances */
     name: string;
+    /** base becomes available for Thing instances (part of binding metadata) */
     base?: string;
 
+    /** A map of ThingProperties (PropertyFragment plus mandatory binding metadata (forms)) */
     properties: { [key: string]: ThingProperty };
+    /** A map of ThingActions (ActionFragment plus mandatory binding metadata (forms)) */
     actions: { [key: string]: ThingAction };
+    /** A map of ThingEvents (EventFragment plus mandatory binding metadata (forms)) */
     events: { [key: string]: ThingEvent };
 }
 
@@ -178,14 +190,14 @@ export interface ThingAction extends ThingInteraction, ActionFragment {
 /** Represents an interactable Thing Event */
 // FIXME: Events are different on ConsumendThing and ExposedThing
 export interface ThingEvent extends ThingInteraction, EventFragment {
-    subscribe(next?: (value: any) => void, error?: (error: any) => void, complete?: () => void): Subscription;
+    subscribe(next?: (data: any) => void, error?: (error: any) => void, complete?: () => void): Subscription;
     // FIXME emit should be only on ExposedThings' ThingEvents - therefore move emit() to ExposedThing?
     emit?(data?: any): void;
 }
 
 /** Represents a client API object to consume Things and their Properties, Actions, and Events */
 export interface ConsumedThing extends ThingInstance {
-    // none defined
+    // no additional functions defined
 }
 
 /** Represents a server API object to expose Things and their Properties, Actions, and Events */
@@ -281,16 +293,16 @@ export declare type ActionHandler = (parameters: any) => Promise<any>;
 
 export interface Link {
     href: USVString;
-    mediaType?: USVString;
-    rel?: USVString;
-
-}
-
-export interface WebLink extends Link {
+    rel?: USVString | Array<USVString>;
+    type?: USVString; // media type hint, no media type parameters
     anchor?: USVString;
 }
 
-export interface Form extends Link {
+export interface Form {
+    href: USVString;
+    subprotocol?: USVString;
+    op?: USVString | Array<USVString>;
+    contenttype?: USVString; // media type + parameter(s), e.g., text/plain;charset=utf8
     security?: Security;
 }
 

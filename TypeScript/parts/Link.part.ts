@@ -1,10 +1,6 @@
 export interface Link {
     href: USVString;
-    mediaType?: USVString;
-    rel?: USVString;
-
-}
-
-export interface WebLink extends Link {
+    rel?: USVString | Array&lt;USVString&gt;
+    type?: USVString; // media type hint, no media type parameters
     anchor?: USVString;
 }
